@@ -8,7 +8,6 @@ function PokemonPage() {
 
   const [pokeData, setPokeData] = useState([]);
   const [search, setSearch] = useState("")
-
   useEffect(() => {
     fetch("http://localhost:3001/pokemon")
       .then((r) => r.json())
@@ -26,13 +25,16 @@ function PokemonPage() {
   const filteredPokeData = pokeData.filter((pokemon) => {
     return pokemon.name.toLowerCase().includes(search.toLowerCase())
   });
+  function handleSubmit(newPokemon) {
+    setPokeData([...pokeData, newPokemon])
+  }
   return (
     <Container>
       <h1>Pokemon Searcher</h1>
       <br />
-      <PokemonForm />
+      <PokemonForm handleSubmit={handleSubmit} />
       <br />
-      <Search handleOnChange={handleOnChange} />
+      <Search handleOnChange={handleOnChange} search={search} />
       <br />
       <PokemonCollection pokeData={filteredPokeData} />
     </Container>
